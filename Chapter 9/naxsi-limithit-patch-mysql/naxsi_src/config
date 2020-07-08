@@ -1,0 +1,16 @@
+ngx_waf_incs="/usr/local/mysql/include"
+ngx_waf_libs="-L/usr/local/mysql/lib -lmysqlclient -lpthread -lm -lrt -ldl -lhiredis -lcurl"
+ngx_addon_name=ngx_http_naxsi_module
+
+if test -n "$ngx_module_link"; then
+    ngx_module_type=HTTP
+    ngx_module_name=ngx_http_naxsi_module
+    ngx_module_srcs="$ngx_addon_dir/naxsi_runtime.c $ngx_addon_dir/naxsi_config.c $ngx_addon_dir/naxsi_utils.c $ngx_addon_dir/naxsi_skeleton.c $ngx_addon_dir/naxsi_json.c $ngx_addon_dir/naxsi_raw.c $ngx_addon_dir/ext/libinjection/libinjection_sqli.c $ngx_addon_dir/ext/libinjection/libinjection_xss.c $ngx_addon_dir/ext/libinjection/libinjection_html5.c"
+    ngx_module_libs="$ngx_waf_libs"
+    ngx_module_incs="$ngx_waf_incs"
+    . auto/module
+else
+    HTTP_MODULES="$HTTP_MODULES ngx_http_naxsi_module"
+    NGX_ADDON_SRCS="$NGX_ADDON_SRCS $ngx_addon_dir/naxsi_runtime.c $ngx_addon_dir/naxsi_config.c $ngx_addon_dir/naxsi_utils.c $ngx_addon_dir/naxsi_skeleton.c $ngx_addon_dir/naxsi_json.c $ngx_addon_dir/naxsi_raw.c $ngx_addon_dir/ext/libinjection/libinjection_sqli.c $ngx_addon_dir/ext/libinjection/libinjection_xss.c $ngx_addon_dir/ext/libinjection/libinjection_html5.c"
+    NGX_ADDON_DEPS="$NGX_ADDON_DEPS $ngx_addon_dir/naxsi.h"
+fi
